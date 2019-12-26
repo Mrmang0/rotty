@@ -35,6 +35,18 @@ function* getMousePosition(sp = {}) {
         };
     })
 
+    canvas.addEventListener('touchmove', e => {
+        const bound = canvas.getBoundingClientRect()
+        prevPostion = {
+            ...currentPostion
+        };
+        currentPostion = {
+            x: e.changedTouches[0].screenX - bound.x - 675,
+            y: e.changedTouches[0].screenY - bound.y - 500
+        }
+        console.log(e);
+    });
+
     while (true) {
         yield {
             currentPostion: currentPostion,
@@ -59,7 +71,8 @@ canvas.addEventListener('touchstart', e => {
         y: e.y
     }
 });
-canvas.addEventListener('touchend',() => isPressd = false);
+
+canvas.addEventListener('touchend', () => isPressd = false);
 
 const render = () => {
     if (isPressd) draw();
@@ -80,7 +93,6 @@ const draw = t => {
         currentPostion,
     } = mouse.next().value;
 
-    console.log(startPosition);
     const dist = Math.sqrt((startPosition.x - currentPostion.x) ** 2 + (startPosition.y - currentPostion.x) ** 2);
     context.strokeStyle = `hsl(${(currentPostion.x+currentPostion.y)%360},${dist%100}%,${dist%100}%)`;
     context.lineWidth = 4;
