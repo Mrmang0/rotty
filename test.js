@@ -52,6 +52,14 @@ canvas.addEventListener('mousedown', e => {
     };
 });
 canvas.addEventListener('mouseup', () => isPressd = false);
+canvas.addEventListener('touchstart', e => {
+    isPressd = true;
+    startPosition = {
+        x: e.x,
+        y: e.y
+    }
+});
+canvas.addEventListener('touchend',() => isPressd = false);
 
 const render = () => {
     if (isPressd) draw();
